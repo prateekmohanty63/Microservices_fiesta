@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from .models import Product
+from .serializers import ProductSerializer
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -8,7 +11,10 @@ from rest_framework import viewsets
 
 class ProductViewSet(viewsets.ViewSet):
     def list(self,request): # /api/products
-        pass
+        products=Product.objects.all()
+
+        serializer=ProductSerializer(products,many=True)
+        return Response(serializer.data)
 
     
     def create(self,request):   # /api/products
