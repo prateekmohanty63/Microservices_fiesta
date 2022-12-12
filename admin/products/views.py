@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from .models import Product
 from .serializers import ProductSerializer
 from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
@@ -18,7 +19,12 @@ class ProductViewSet(viewsets.ViewSet):
 
     
     def create(self,request):   # /api/products
-        pass
+        serializer=ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 
     def retrive(self,request,pk=None):   # /api/products/<str:id>
         pass  
