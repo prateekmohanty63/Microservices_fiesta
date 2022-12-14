@@ -11,6 +11,9 @@ from rest_framework.views import APIView
 from .models import User
 import random
 
+# rabbitmq imports
+from .producer import publish
+
 # Create your views here.
 
 
@@ -19,8 +22,8 @@ import random
 class ProductViewSet(viewsets.ViewSet):
     def list(self,request): # /api/products
         products=Product.objects.all()
-
         serializer=ProductSerializer(products,many=True)
+        publish()
         return Response(serializer.data)
 
     
