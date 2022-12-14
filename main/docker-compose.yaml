@@ -11,8 +11,6 @@ services:
       - .:/app
     depends_on:
       - db
-
-
   db:
     image: mysql:5.7.22
     restart: always
@@ -25,3 +23,5 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - 33067:3306
+       
+
