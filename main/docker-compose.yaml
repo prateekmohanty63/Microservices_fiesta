@@ -1,6 +1,8 @@
 version: '3.8'
 services:
   backend:
+    container_name: main-backend-container
+    image: main-image
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: 'python consumer.py'
+    command: 'python -u consumer.py'
     depends_on:
       - db
   db:
