@@ -5,6 +5,7 @@ from .serializers import ProductSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from django.http import Http404
 
 # user import
 
@@ -54,7 +55,12 @@ class ProductViewSet(viewsets.ViewSet):
 
 
     def destroy(self,request,pk=None):
-        product=Product.objects.get(id=pk)
+        try:
+
+            product=Product.objects.get(id=pk)
+        except Product.DoesNotExist:
+            product=None
+            raise Http404
         product.delete()
         publish('product_deleted',pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
