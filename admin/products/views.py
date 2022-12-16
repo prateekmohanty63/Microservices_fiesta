@@ -31,7 +31,9 @@ class ProductViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
 
         serializer.save()
+        print('before publish')
         publish('product_created',serializer.data)
+        print('after publish')
 
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
@@ -41,15 +43,14 @@ class ProductViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
 
-    def update(self,request,pk=None):
-        product=Product.objects.get(id=pk)
-        serializer=ProductSerializer(instance=product,data=request.data)
+   
+    def update(self, request, pk=None):
+        product = Product.objects.get(id=pk)
+        serializer = ProductSerializer(instance=product, data=request.data)
         serializer.is_valid(raise_exception=True)
-        publish('product_updated',serializer.data)
-
         serializer.save()
-
-        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+        publish('product_updated', serializer.data)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
     def destroy(self,request,pk=None):
