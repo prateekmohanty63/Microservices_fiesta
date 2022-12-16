@@ -28,11 +28,13 @@ def callback(ch, method, properties, body):
             print('Product Created')
 
     elif properties.content_type == 'product_updated':
-        product = Product.query.get(data['id'])
-        product.title = data['title']
-        product.image = data['image']
-        db.session.commit()
-        print('Product Updated')
+        with app.app_context():
+            product = Product.query.get(data['id'])
+            print(product)
+            product.title = data['title']
+            product.image = data['image']
+            db.session.commit()
+            print('Product Updated')
 
     elif properties.content_type == 'product_deleted':
         product = Product.query.get(data)
